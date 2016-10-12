@@ -20,26 +20,26 @@
   },
   "dependencies": {
     "boom": "4.1.0",
-    "confidence": "3.0.1",
+    "confidence": "3.0.2",
     "dotenv": "2.0.0",
     "glue": "4.0.0",
     "good": "7.0.2",
     "good-console": "6.1.2",
     "good-squeeze": "5.0.0",
     "handlebars": "4.0.5",
-    "hapi": "15.1.0",
+    "hapi": "15.1.1",
     "inert": "4.0.2",
-    "require-dir": "0.3.0",
+    "require-dir": "0.3.1",
     "vision": "4.1.0",
     "visionary": "6.0.2"
   },
   "devDependencies": {
     "code": "4.0.0",
     "coveralls": "2.11.14",
-    "eslint": "3.6.1",
+    "eslint": "3.7.1",
     "eslint-config-hapi": "10.0.0",
     "eslint-plugin-hapi": "4.0.0",
     "lab": "11.1.0",
-    "nodemon": "1.10.2"
+    "nodemon": "1.11.0"
   }
 }
