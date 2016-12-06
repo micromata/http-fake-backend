@@ -3,7 +3,7 @@
 const Confidence = require('confidence');
 const Config = require('./config');
 const Fs = require('fs');
-const Path = require('path');
+const Path = require('path');  
 
 const criteria = {
     env: process.env.NODE_ENV
