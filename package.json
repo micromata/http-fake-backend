@@ -20,9 +20,6 @@
     "snyk:wizard": "snyk wizard",
     "snyk:monitor": "snyk monitor"
   },
-  "eslintConfig": {
-    "extends": "eslint-config-hapi"
-  },
   "engines": {
     "node": ">=4.0.0"
   },
