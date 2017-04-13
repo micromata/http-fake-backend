@@ -4,7 +4,7 @@ const Lab = require('lab');
 const Code = require('code');
 const Config = require('../../../config');
 const Hapi = require('hapi');
-const SetupEndpoint = require('../../../server/api/setup/setup.js');
+const SetupEndpoint = require('../../../server/api/setup/index.js');
 
 const apiUrlPrefix = Config.get('/apiUrlPrefix');
 
