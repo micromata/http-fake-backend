@@ -208,13 +208,7 @@ boom@3.x.x:
   dependencies:
     hoek "4.x.x"
 
-boom@4.x.x:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/boom/-/boom-4.2.0.tgz#c1a74174b11fbba223f6162d4fd8851a1b82a536"
-  dependencies:
-    hoek "4.x.x"
-
-boom@^4.3.1:
+boom@4.x.x, boom@^4.3.1:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/boom/-/boom-4.3.1.tgz#4f8a3005cb4a7e3889f749030fd25b96e01d2e31"
   dependencies:
@@ -1082,30 +1076,7 @@ hapi-scope-start@2.x.x:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/hapi-scope-start/-/hapi-scope-start-2.1.1.tgz#7495a726fe72b7bca8de2cdcc1d87cd8ce6ab4f2"
 
-"hapi@11.x.x || 12.x.x || 13.x.x || 14.x.x || 15.x.x || 16.x.x":
-  version "16.1.0"
-  resolved "https://registry.yarnpkg.com/hapi/-/hapi-16.1.0.tgz#419dd86347588821eb5a0a5f493bce019802d33b"
-  dependencies:
-    accept "2.x.x"
-    ammo "2.x.x"
-    boom "4.x.x"
-    call "4.x.x"
-    catbox "7.x.x"
-    catbox-memory "2.x.x"
-    cryptiles "3.x.x"
-    heavy "4.x.x"
-    hoek "4.x.x"
-    iron "4.x.x"
-    items "2.x.x"
-    joi "10.x.x"
-    mimos "3.x.x"
-    podium "^1.2.x"
-    shot "3.x.x"
-    statehood "5.x.x"
-    subtext "^4.3.x"
-    topo "2.x.x"
-
-hapi@^16.1.1:
+"hapi@11.x.x || 12.x.x || 13.x.x || 14.x.x || 15.x.x || 16.x.x", hapi@^16.1.1:
   version "16.1.1"
   resolved "https://registry.yarnpkg.com/hapi/-/hapi-16.1.1.tgz#0466db0703ba15cd00f07175ccf394d9cb56b1e0"
   dependencies:
@@ -1196,9 +1167,9 @@ imurmurhash@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/imurmurhash/-/imurmurhash-0.1.4.tgz#9218b9b2b928a238b13dc4fb6b6d576f231453ea"
 
-inert@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/inert/-/inert-4.1.0.tgz#e68df9fb0b87d8ad688e3428daaf35d623b64f5d"
+inert@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/inert/-/inert-4.2.0.tgz#6aa5da8ce19982eb72aabef4bdda64fd6750b005"
   dependencies:
     ammo "2.x.x"
     boom "4.x.x"
@@ -1486,9 +1457,9 @@ kind-of@^3.0.2:
   dependencies:
     is-buffer "^1.0.2"
 
-lab@^13.0.1:
-  version "13.0.1"
-  resolved "https://registry.yarnpkg.com/lab/-/lab-13.0.1.tgz#982e3aa382ba00911de36e928b3cedb610473f9c"
+lab@^13.0.2:
+  version "13.0.2"
+  resolved "https://registry.yarnpkg.com/lab/-/lab-13.0.2.tgz#1b2fefa079cca68a88d3567ee39ab84f75a80a1f"
   dependencies:
     bossy "3.x.x"
     diff "3.x.x"
