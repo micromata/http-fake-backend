@@ -15,9 +15,6 @@
     "coverage": "lab -v -c -r html -o ./test/artifacts/coverage.html && open ./test/artifacts/coverage.html",
     "coveralls": "lab -r lcov | ./node_modules/.bin/coveralls"
   },
-  "eslintConfig": {
-    "extends": "eslint-config-hapi"
-  },
   "engines": {
     "node": ">=4.0.0"
   },
