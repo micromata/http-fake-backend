@@ -6,7 +6,7 @@ module.exports = SetupEndpoint({
     name: 'simpleExample',
     urls: [{
         requests: [
-            { response: '/json-templates/simpleExample.json' }
+            { response: '/response-files/simpleExample.json' }
         ]
     }]
 });

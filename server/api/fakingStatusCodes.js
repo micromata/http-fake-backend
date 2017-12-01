@@ -29,7 +29,7 @@ module.exports = SetupEndpoint({
             requests: [{
                 // Returns a 401 error provided by boom
                 // as defined on endpoint level
-                response: '/json-templates/anotherExample.json'
+                response: '/response-files/anotherExample.json'
             }]
         }
     ],

@@ -8,7 +8,7 @@ module.exports = SetupEndpoint({
         params: '/read',
         requests: [{
             method: 'GET',
-            response: '/json-templates/anotherExample.json'
+            response: '/response-files/anotherExample.json'
         }]
     }, {
         params: '/update/{id}',
