@@ -1,10 +1,13 @@
 'use strict';
 
 const Boom = require('boom');
+const Fs = require('fs');
+const Path = require('path');
 
 module.exports = function (server, proposedRequest, settings, params, path) {
 
     const method = proposedRequest.method || 'GET';
+    const mimeType = proposedRequest.mimeType || 'application/json';
 
     return {
         method,
@@ -23,7 +26,8 @@ module.exports = function (server, proposedRequest, settings, params, path) {
                 server.log('info', 'Received payload:' + JSON.stringify(request.payload));
 
                 if (typeof proposedRequest.response === 'string') {
-                    response = require('../../..' + proposedRequest.response);
+                    const filePath = Path.normalize(Path.join(__dirname, '../../../', proposedRequest.response));
+                    response = Fs.readFileSync(filePath, 'utf8');
                 }
                 else {
                     response = proposedRequest.response;
@@ -32,9 +36,14 @@ module.exports = function (server, proposedRequest, settings, params, path) {
             }
 
             if (proposedRequest.statusCode && proposedRequest.response) {
-                return reply(response).code(proposedRequest.statusCode);
+                return reply(response).code(proposedRequest.statusCode).type(mimeType);
             }
-            return reply(response);
+
+            if (response.isBoom === true) {
+                return reply(response);
+            }
+
+            return reply(response).type(mimeType);
         }
     };
 };
