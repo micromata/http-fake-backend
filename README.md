@@ -60,7 +60,7 @@ npm run start:dev
 ```
 
 This way the server uses `nodemon` to restart itself on changes. 
-This way you dont have to restart the server in case you changed an endpoint. 
+This way you don’t have to restart the server in case you changed an endpoint. 
 
 
 ### Later (eg. for tests in CI)
@@ -69,7 +69,7 @@ This way you dont have to restart the server in case you changed an endpoint.
 npm start
 ```
 
-Just fires up the server via node.  
+Just starts the server via node.  
 This one comes is without any magic (eg. `foreverjs`)
 
 ## Configuring endpoints
@@ -87,8 +87,37 @@ module.exports = SetupEndpoint({
     name: 'simpleExample',
     urls: [{
         requests: [
-            { response: '/json-templates/simpleExample.json' }
+            { response: '/response-files/simpleExample.json' }
         ]
+    }]
+});
+```
+
+#### Serving different content types
+
+`/server/api/fileTypes.js`:
+
+```js
+module.exports = SetupEndpoint({
+    name: 'fileTypes',
+    urls: [{
+        params: '/json',
+        requests: [{
+            response: '/response-files/simpleExample.json'
+        }]
+    }, {
+        params: '/text',
+        requests: [{
+            response: '/response-files/example.txt',
+            mimeType: 'text/plain'
+        }]
+    }, {
+        params: '/html',
+        requests: [{
+            response: '/response-files/example.html',
+            statusCode: 201,
+            mimeType: 'text/html'
+        }]
     }]
 });
 ```
@@ -104,7 +133,7 @@ module.exports = SetupEndpoint({
         params: '/read',
         requests: [{
             method: 'GET',
-            response: '/json-templates/anotherExample.json'
+            response: '/response-files/anotherExample.json'
         }]
     }, {
         params: '/update/{id}',
@@ -156,7 +185,7 @@ module.exports = SetupEndpoint({
             requests: [{
                 // Returns a 401 error provided by boom
                 // as defined on endpoint level
-                response: '/json-templates/anotherExample.json'
+                response: '/response-files/anotherExample.json'
             }]
         }
     ],
@@ -185,9 +214,12 @@ The configuration object in Detail:
     * is used to define the http method(s) to which the endpoint will listen.
 * `urls.requests.response` 
   * Could be a string pointing to a JSON template:
-    *   `response: '/json-templates/articles.json'`
+    *   `response: '/response-files/articles.json'`
   * Or just a JavaScript object:
     * `response: { success: true }`
+* `urls.requests.mimeType` 
+  * optional (string). Defaults to `application/json`.
+  * is used to set the `content-type` response header. 
 * `urls.requests.statusCode` 
   * Optional
   * A status code (number)
