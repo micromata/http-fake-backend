@@ -28,6 +28,20 @@ const Endpoint = SetupEndpoint({
             statusCode: 201,
             mimeType: 'text/html'
         }]
+    }, {
+        params: '/pdf',
+        requests: [{
+            response: '/response-files/example.pdf',
+            sendFile: true
+        }]
+    }, {
+        params: '/pdf/tweaked',
+        requests: [{
+            response: '/response-files/example.pdf',
+            sendFile: true,
+            statusCode: 201,
+            mimeType: 'application/pdf'
+        }]
     }]
 });
 
@@ -60,52 +74,96 @@ lab.experiment('Different file types', () => {
     });
 
 
-    lab.test('content-type header defaults to `application/json`', (done) => {
+    lab.experiment('send file contents ', () => {
 
-        request = {
-            method: 'GET',
-            url: apiUrlPrefix + '/fileTypes/json'
-        };
+        lab.test('content-type header defaults to `application/json`', (done) => {
 
-        server.inject(request, (response) => {
+            request = {
+                method: 'GET',
+                url: apiUrlPrefix + '/fileTypes/json'
+            };
 
-            Code.expect(response.headers['content-type']).to.equal('application/json; charset=utf-8');
+            server.inject(request, (response) => {
 
-            done();
+                Code.expect(response.headers['content-type']).to.equal('application/json; charset=utf-8');
+
+                done();
+            });
         });
+
+        lab.test('return text files with the defined content-type header`', (done) => {
+
+            request = {
+                method: 'GET',
+                url: apiUrlPrefix + '/fileTypes/text'
+            };
+
+            server.inject(request, (response) => {
+
+                Code.expect(response.headers['content-type']).to.equal('text/plain; charset=utf-8');
+                Code.expect(response.result).to.equal('This is just a plain old text file.\n');
+
+                done();
+            });
+        });
+
+        lab.test('return with the defined content-type header and custom status code`', (done) => {
+
+            request = {
+                method: 'GET',
+                url: apiUrlPrefix + '/fileTypes/html'
+            };
+
+            server.inject(request, (response) => {
+
+                Code.expect(response.headers['content-type']).to.equal('text/html; charset=utf-8');
+                Code.expect(response.result).to.equal('<a href="https://github.com">GitHub</a>\n');
+                Code.expect(response.statusCode).to.equal(201);
+
+                done();
+            });
+        });
+
     });
 
-    lab.test('return text files with the defined content-type header`', (done) => {
 
-        request = {
-            method: 'GET',
-            url: apiUrlPrefix + '/fileTypes/text'
-        };
 
-        server.inject(request, (response) => {
+    lab.experiment('send files ', () => {
 
-            Code.expect(response.headers['content-type']).to.equal('text/plain; charset=utf-8');
-            Code.expect(response.result).to.equal('This is just a plain old text file.\n');
+        lab.test('send files with the default content-type and the correct name`', (done) => {
 
-            done();
+            request = {
+                method: 'GET',
+                url: apiUrlPrefix + '/fileTypes/pdf'
+            };
+
+            server.inject(request, (response) => {
+
+                Code.expect(response.headers['content-type']).to.equal('application/octet-stream');
+                Code.expect(response.headers['content-disposition']).to.equal('attachment; filename=example.pdf');
+                Code.expect(response.statusCode).to.equal(200);
+
+                done();
+            });
         });
-    });
 
-    lab.test('return with the defined content-type header and custom status code`', (done) => {
+        lab.test('send files with a defined content-type and a custom status code`', (done) => {
 
-        request = {
-            method: 'GET',
-            url: apiUrlPrefix + '/fileTypes/html'
-        };
+            request = {
+                method: 'GET',
+                url: apiUrlPrefix + '/fileTypes/pdf/tweaked'
+            };
 
-        server.inject(request, (response) => {
+            server.inject(request, (response) => {
 
-            Code.expect(response.headers['content-type']).to.equal('text/html; charset=utf-8');
-            Code.expect(response.result).to.equal('<a href="https://github.com">GitHub</a>\n');
-            Code.expect(response.statusCode).to.equal(201);
+                Code.expect(response.headers['content-type']).to.equal('application/pdf');
+                Code.expect(response.headers['content-disposition']).to.equal('attachment; filename=example.pdf');
+                Code.expect(response.statusCode).to.equal(201);
 
-            done();
+                done();
+            });
         });
+
     });
 
 
