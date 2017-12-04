@@ -11,6 +11,8 @@
 
 > Build a fake backend by providing the content of JSON files or JavaScript objects through configurable routes.
 
+*It actually can serve the content of other file types as well as sending the files itself as response.*
+
 Comes as a Node.js server. Useful for mocking, testing and developing independent of the »real« backend.
 
 ## Example
@@ -93,35 +95,6 @@ module.exports = SetupEndpoint({
 });
 ```
 
-#### Serving different content types
-
-`/server/api/fileTypes.js`:
-
-```js
-module.exports = SetupEndpoint({
-    name: 'fileTypes',
-    urls: [{
-        params: '/json',
-        requests: [{
-            response: '/response-files/simpleExample.json'
-        }]
-    }, {
-        params: '/text',
-        requests: [{
-            response: '/response-files/example.txt',
-            mimeType: 'text/plain'
-        }]
-    }, {
-        params: '/html',
-        requests: [{
-            response: '/response-files/example.html',
-            statusCode: 201,
-            mimeType: 'text/html'
-        }]
-    }]
-});
-```
-
 #### Advanced Example
 
 `/server/api/anotherExample.js`:
@@ -147,6 +120,40 @@ module.exports = SetupEndpoint({
             response: {
                 deleted: true
             }
+        }]
+    }, ]
+});
+```
+
+#### Serving different content types
+
+`/server/api/fileTypes.js`:
+
+```js
+module.exports = SetupEndpoint({
+    name: 'fileTypes',
+    urls: [{
+        params: '/json',
+        requests: [{
+            response: '/response-files/simpleExample.json'
+        }]
+    }, {
+        params: '/text',
+        requests: [{
+            response: '/response-files/example.txt',
+            mimeType: 'text/plain'
+        }]
+    }, {
+        params: '/html',
+        requests: [{
+            response: '/response-files/example.html',
+            mimeType: 'text/html'
+        }]
+    }, {
+        params: '/pdf',
+        requests: [{
+            response: '/response-files/example.pdf',
+            sendFile: true
         }]
     }]
 });
@@ -213,16 +220,19 @@ The configuration object in Detail:
     * `string`, or `array` of strings.
     * is used to define the http method(s) to which the endpoint will listen.
 * `urls.requests.response` 
-  * Could be a string pointing to a JSON template:
+  * Could be a string pointing to a file:
     *   `response: '/response-files/articles.json'`
   * Or just a JavaScript object:
     * `response: { success: true }`
 * `urls.requests.mimeType` 
-  * optional (string). Defaults to `application/json`.
-  * is used to set the `content-type` response header. 
+  * Optional (string). Defaults to `application/json`.
+  * Is used to set the `content-type` response header. 
+* `urls.requests.sendFile`
+  * Optional (boolean). Defaults to `false`.
+  * Sends the file as response instead of returning the file content.
 * `urls.requests.statusCode` 
-  * Optional
-  * A status code (number)
+  * Optional (boolean). Defaults to `200`
+  * The HTTP status code of the response.
   * Will return: 
     * a status code with a self defined response if you provide a response property
     * a status code with a predefined error object provided by [boom](https://github.com/hapijs/boom) if you dont provide a response property for that request.
