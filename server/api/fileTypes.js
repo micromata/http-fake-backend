@@ -22,5 +22,11 @@ module.exports = SetupEndpoint({
             statusCode: 201,
             mimeType: 'text/html'
         }]
+    }, {
+        params: '/pdf',
+        requests: [{
+            response: '/response-files/example.pdf',
+            sendFile: true
+        }]
     }]
 });

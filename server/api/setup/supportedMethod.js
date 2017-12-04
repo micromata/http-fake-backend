@@ -4,10 +4,14 @@ const Boom = require('boom');
 const Fs = require('fs');
 const Path = require('path');
 
+const GetContentDisposition = require('./lib/getContentDisposition.js');
+
 module.exports = function (server, proposedRequest, settings, params, path) {
 
     const method = proposedRequest.method || 'GET';
-    const mimeType = proposedRequest.mimeType || 'application/json';
+    const sendFile = proposedRequest.sendFile | false;
+    const isFile = typeof proposedRequest.response === 'string';
+    const mimeType = proposedRequest.mimeType || (sendFile ? 'application/octet-stream' : 'application/json');
 
     return {
         method,
@@ -36,11 +40,19 @@ module.exports = function (server, proposedRequest, settings, params, path) {
             }
 
             if (proposedRequest.statusCode && proposedRequest.response) {
+
+                if (sendFile && isFile) {
+                    return reply(response).code(proposedRequest.statusCode).type(mimeType).header('Content-Disposition', GetContentDisposition(proposedRequest.response));
+                }
                 return reply(response).code(proposedRequest.statusCode).type(mimeType);
             }
 
             if (response.isBoom === true) {
                 return reply(response);
+            }
+
+            if (sendFile && isFile) {
+                return reply(response).type(mimeType).header('Content-Disposition', GetContentDisposition(proposedRequest.response));
             }
 
             return reply(response).type(mimeType);
