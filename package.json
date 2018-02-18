@@ -41,7 +41,7 @@
     "visionary": "^6.0.2"
   },
   "devDependencies": {
-    "code": "^5.2.0",
+    "code": "^4.1.0",
     "coveralls": "^3.0.0",
     "eslint": "^4.18.0",
     "eslint-config-hapi": "^11.1.0",
