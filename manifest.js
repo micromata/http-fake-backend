@@ -4,6 +4,7 @@ const Confidence = require('confidence');
 const Config = require('./config');
 const Fs = require('fs');
 const Path = require('path');
+const GetCustomResponseHeader = require('./server/api/setup/lib/getCustomResponseHeader');
 
 const criteria = {
     env: process.env.NODE_ENV
@@ -22,7 +23,8 @@ const manifest = {
                 security: true,
                 cors: {
                     origin: ['*'],
-                    credentials: true
+                    credentials: true,
+                    additionalExposedHeaders: [GetCustomResponseHeader(process.env).name]
                 }
             },
             router: {

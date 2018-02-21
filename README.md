@@ -70,7 +70,7 @@ npm start
 
 Just starts the server via node.
 
-## Configuring endpoints
+## Configure endpoints
 
 Each endpoint needs a configuration file in `/server/api/` to define routes, http method and the response.
 
@@ -236,7 +236,7 @@ The configuration object in Detail:
   * Optional
   * Every subroute of this endpoint will return a HTTP error with the given status code provided by [boom](https://github.com/hapijs/boom).
 
-## Configuration
+## Configure server
 
 The main config is handled via a file named `.env` with the following content:
 
@@ -254,6 +254,10 @@ TEST_PORT=9090
 # URL Prefix for the endpoints
 # eg. http://localhost:8081/api/foo
 API_PREFIX=/api
+
+# Custom response header
+#CUSTOM_HEADER_NAME=Authorization
+#CUSTOM_HEADER_VALUE=Bearer eyJhbGciOiJIUzUxMiJ9
 
 ```
 

@@ -4,7 +4,8 @@ const Boom = require('boom');
 const Fs = require('fs');
 const Path = require('path');
 
-const GetContentDisposition = require('./lib/getContentDisposition.js');
+const GetContentDisposition = require('./lib/getContentDisposition');
+const CustomResponseHeader = require('./lib/getCustomResponseHeader')(process.env);
 
 module.exports = function (server, proposedRequest, settings, params, path) {
 
@@ -39,23 +40,18 @@ module.exports = function (server, proposedRequest, settings, params, path) {
 
             }
 
-            if (proposedRequest.statusCode && proposedRequest.response) {
-
-                if (sendFile && isFile) {
-                    return reply(response).code(proposedRequest.statusCode).type(mimeType).header('Content-Disposition', GetContentDisposition(proposedRequest.response));
-                }
-                return reply(response).code(proposedRequest.statusCode).type(mimeType);
-            }
-
             if (response.isBoom === true) {
+                response.output.headers[CustomResponseHeader.name] = CustomResponseHeader.value;
                 return reply(response);
             }
 
             if (sendFile && isFile) {
-                return reply(response).type(mimeType).header('Content-Disposition', GetContentDisposition(proposedRequest.response));
+                return reply(response).code(proposedRequest.statusCode || 200).type(mimeType)
+                    .header('Content-Disposition', GetContentDisposition(proposedRequest.response))
+                    .header(CustomResponseHeader.name, CustomResponseHeader.value);
             }
-
-            return reply(response).type(mimeType);
+            return reply(response).code(proposedRequest.statusCode || 200).type(mimeType)
+                .header(CustomResponseHeader.name, CustomResponseHeader.value);
         }
     };
 };

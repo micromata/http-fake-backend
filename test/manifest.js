@@ -22,4 +22,10 @@ lab.experiment('Manifest', () => {
         Code.expect(Manifest.meta('/')).to.match(/hapi server config used by glue to compose the server/i);
         done();
     });
+
+    lab.test('it gets the correct custom response header', (done) => {
+
+        Code.expect(Manifest.get('/').server.connections.routes.cors.additionalExposedHeaders).to.equal(['X-Powered-By']);
+        done();
+    });
 });
