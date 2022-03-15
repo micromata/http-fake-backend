@@ -8,19 +8,19 @@ module.exports = function (settings, params, path) {
     return {
         method: '*',
         path: path + params,
-        handler: function (request, reply) {
+        handler: function (request, toolkit) {
 
-            let response;
+            let data;
 
             if (settings.statusCode) {
-                response = Boom.create(settings.statusCode);
+                data = Boom.create(settings.statusCode);
             }
             else {
-                response = Boom.methodNotAllowed();
+                data = Boom.methodNotAllowed();
             }
 
-            response.output.headers[CustomResponseHeader.name] = CustomResponseHeader.value;
-            return reply(response);
+            data.output.headers[CustomResponseHeader.name] = CustomResponseHeader.value;
+            return toolkit.response(data);
         }
     };
 };

@@ -1,10 +1,11 @@
 'use strict';
 
-const Confidence = require('confidence');
+const Confidence = require('@hapipal/confidence');
 const Config = require('./config');
 const Fs = require('fs');
 const Path = require('path');
 const GetCustomResponseHeader = require('./server/api/setup/lib/getCustomResponseHeader');
+const Glue = require('@hapi/glue');
 
 const criteria = {
     env: process.env.NODE_ENV
@@ -13,77 +14,53 @@ const criteria = {
 const pathToEndpointConfigFiles = './server/api';
 
 const manifest = {
-    $meta: 'Hapi server config used by glue to compose the server.',
     server: {
         debug: {
             request: ['error']
         },
-        connections: {
-            routes: {
-                security: true,
-                cors: {
-                    origin: ['*'],
-                    credentials: true,
-                    additionalExposedHeaders: [GetCustomResponseHeader(process.env).name]
-                }
-            },
-            router: {
-                stripTrailingSlash: true,
-                isCaseSensitive: false
-            }
-        }
-    },
-    connections: [{
         port: Config.get('/port/web'),
-        labels: ['web']
-    }],
-    registrations: [
-        { plugin: 'vision' },
-        {
-            plugin: {
-                register: 'visionary',
-                options: {
-                    layout: true,
-                    engines: { hbs: 'handlebars' },
-                    path: './server/web/views',
-                    partialsPath: './server/web/views/partials',
-                    layoutPath: './server/web/views/layout',
-                    helpersPath: './server/web/views/helpers',
-                    isCached: {
-                        $filter: 'env',
-                        development: false,
-                        production: true
-                    }
-                }
+        routes: {
+            security: true,
+            cors: {
+                origin: ['*'],
+                credentials: true,
+                additionalExposedHeaders: [GetCustomResponseHeader(process.env).name]
             }
         },
-        {
-            plugin: {
-                register: 'good',
+        router: {
+            stripTrailingSlash: true,
+            isCaseSensitive: false
+        }
+    },
+    register: {
+        plugins: [
+            { plugin: '@hapi/vision' },
+            {
+                plugin: '@hapi/good',
                 options: {
                     ops: {
                         interval: 15000
                     },
                     reporters: {
                         console: [{
-                            module: 'good-squeeze',
+                            module: '@hapi/good-squeeze',
                             name: 'Squeeze',
                             args: [{
                                 log: '*',
                                 response: '*'
                             }]
                         }, {
-                            module: 'good-console',
+                            module: '@hapi/good-console',
                             args: [{ format: 'YYYY-MM-DD/HH:mm:ss.SSS' }]
                         }, 'stdout']
                     }
                 }
-            }
-        },
-        { plugin: 'inert' },
-        { plugin: './server/web/index' },
-        { plugin: './server/web/public' }
-    ]
+            },
+            { plugin: '@hapi/inert' },
+            { plugin: require('./server/web/index') },
+            { plugin: require('./server/web/public') }
+        ]
+    }
 };
 
 // Add plugins to manifest.registration for every endpoint in ./server/api
@@ -95,12 +72,25 @@ Fs.readdirSync(pathToEndpointConfigFiles).map((file) => {
     return Fs.statSync(file).isFile();
 }).forEach((file) => {
 
-    const plugin = { plugin: './server/api/' + Path.parse(file).name };
-    manifest.registrations.push(plugin);
+    const plugin = { plugin: require('./server/api/' + Path.parse(file).name) };
+    manifest.register.plugins.push(plugin);
 });
 
 const store = new Confidence.Store(manifest);
 
+const startServer = async function () {
+
+    try {
+        const server = await Glue.compose(manifest, {});
+        await server.start();
+    }
+    catch (err) {
+        console.error(err);
+        process.exit(1);
+    }
+};
+
+startServer();
 
 exports.get = function (key) {
 

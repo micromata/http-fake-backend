@@ -1,6 +1,8 @@
 'use strict';
 
-exports.register = function (server, options, next) {
+exports.name = 'public-plugin';
+
+exports.register = function (server) {
 
     server.route({
         method: 'GET',
@@ -12,8 +14,6 @@ exports.register = function (server, options, next) {
             }
         }
     });
-
-    next();
 };
 
 

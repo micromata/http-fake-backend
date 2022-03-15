@@ -1,6 +1,7 @@
 'use strict';
 
 const RequireDir = require('require-dir');
+
 const apiDir = RequireDir('../api');
 
 
@@ -16,7 +17,9 @@ const getEndpoints = function (request, reply) {
     return reply(endpoints);
 };
 
-exports.register = function (server, options, next) {
+exports.name = 'endpoint-routes-plugin';
+
+exports.register = function (server) {
 
     server.route({
         method: 'GET',
@@ -35,12 +38,4 @@ exports.register = function (server, options, next) {
             }
         }
     });
-
-    next();
-};
-
-
-exports.register.attributes = {
-    name: 'index',
-    dependencies: 'visionary'
 };

@@ -12,43 +12,40 @@
     "start": "node server.js",
     "start:dev": "nodemon server.js",
     "test": "lab -v -c -L",
-    "security": "nsp check",
-    "release": "npm run security && standard-version --tag-prefix",
-    "release:patch": "npm run security && standard-version --tag-prefix --release-as patch",
-    "release:minor": "npm run security && standard-version --tag-prefix --release-as minor",
-    "release:major": "npm run security && standard-version --tag-prefix --release-as major",
+    "release": "standard-version --tag-prefix",
+    "release:patch": "standard-version --tag-prefix --release-as patch",
+    "release:minor": "standard-version --tag-prefix --release-as minor",
+    "release:major": "standard-version --tag-prefix --release-as major",
     "coverage": "lab -v -c -r html -o ./test/artifacts/coverage.html && open ./test/artifacts/coverage.html",
     "coveralls": "lab -r lcov | ./node_modules/.bin/coveralls"
   },
   "eslintConfig": {
-    "extends": "eslint-config-hapi"
+    "extends": "plugin:@hapi/recommended"
   },
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=18.12.0"
   },
   "dependencies": {
-    "boom": "^5.2.0",
-    "confidence": "^3.0.2",
-    "dotenv": "^5.0.0",
-    "glue": "^4.2.1",
-    "good": "^7.3.0",
-    "good-console": "^7.1.0",
-    "good-squeeze": "^5.0.2",
-    "handlebars": "^4.0.10",
-    "hapi": "^16.6.2",
-    "inert": "^4.2.1",
-    "require-dir": "^1.0.0",
-    "vision": "^4.1.1",
-    "visionary": "^6.0.2"
+    "@hapi/boom": "^9.1.1",
+    "@hapipal/confidence": "^6.0.2",
+    "dotenv": "^16.0.0",
+    "@hapi/glue": "^8.0.0",
+    "@hapi/good": "^9.0.1",
+    "@hapi/good-console": "^9.0.1",
+    "@hapi/good-squeeze": "^6.0.0",
+    "handlebars": "^4.7.7",
+    "@hapi/hapi": "^20.2.1",
+    "@hapi/inert": "^6.0.5",
+    "require-dir": "^1.2.0",
+    "@hapi/vision": "^6.1.0"
   },
   "devDependencies": {
-    "code": "^4.1.0",
-    "coveralls": "^3.0.0",
-    "eslint": "^4.18.0",
-    "eslint-config-hapi": "^11.1.0",
-    "eslint-plugin-hapi": "^4.0.0",
-    "lab": "^14.3.2",
-    "nodemon": "^1.15.0",
+    "@hapi/code": "^5.2.4",
+    "coveralls": "^3.1.1",
+    "eslint": "^8.11.0",
+    "@hapi/eslint-plugin": "^5.1.0",
+    "@hapi/lab": "^24.5.1",
+    "nodemon": "^2.0.15",
     "nsp": "^3.2.1",
     "standard-version": "^4.3.0"
   }

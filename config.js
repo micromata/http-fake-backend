@@ -1,7 +1,8 @@
 'use strict';
 
-const Confidence = require('confidence');
-require('dotenv').load();
+const Confidence = require('@hapipal/confidence');
+
+require('dotenv').config();
 
 const criteria = {
     env: process.env.NODE_ENV
