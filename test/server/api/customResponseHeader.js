@@ -3,7 +3,7 @@
 const Lab = require('lab');
 const Code = require('code');
 const Config = require('../../../config');
-const Hapi = require('hapi');
+const Hapi = require('@hapi/hapi');
 const SetupEndpoint = require('../../../server/api/setup/');
 const GetCustomResponseHeader = require('../../../server/api/setup/lib/getCustomResponseHeader');
 

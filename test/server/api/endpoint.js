@@ -3,7 +3,7 @@
 const Lab = require('lab');
 const Code = require('code');
 const Config = require('../../../config');
-const Hapi = require('hapi');
+const Hapi = require('@hapi/hapi');
 const SetupEndpoint = require('../../../server/api/setup/');
 
 const apiUrlPrefix = Config.get('/apiUrlPrefix');
@@ -69,8 +69,7 @@ let server;
 lab.beforeEach((done) => {
 
     const plugins = [Endpoint];
-    server = new Hapi.Server();
-    server.connection({ port: Config.get('/port/web') });
+    server = new Hapi.Server({ port: Config.get('/port/web') });
     server.register(plugins, (err) => {
 
         if (err) {

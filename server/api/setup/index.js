@@ -10,7 +10,8 @@ module.exports = function (settings) {
     const path = Config.get('/apiUrlPrefix') + '/' + settings.name;
     const urls = settings.urls;
 
-    exportEndpoint.register = function (server, options, next) {
+    exportEndpoint.name = settings.name;
+    exportEndpoint.register = function (server) {
 
         const routes = [];
 
@@ -30,7 +31,6 @@ module.exports = function (settings) {
 
         urls.forEach(createRoutes);
         server.route(routes);
-        next();
     };
 
     exportEndpoint.register.attributes = {

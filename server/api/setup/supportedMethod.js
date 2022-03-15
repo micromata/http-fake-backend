@@ -17,40 +17,40 @@ module.exports = function (server, proposedRequest, settings, params, path) {
     return {
         method,
         path: path + params,
-        handler: function (request, reply) {
+        handler: function (request, toolkit) {
 
-            let response;
+            let data;
 
             if (proposedRequest.statusCode && !proposedRequest.response) {
-                response = Boom.create(proposedRequest.statusCode);
+                data = Boom.create(proposedRequest.statusCode);
             }
             else if (settings.statusCode && !proposedRequest.statusCode) {
-                response = Boom.create(settings.statusCode);
+                data = Boom.create(settings.statusCode);
             }
             else {
                 server.log('info', 'Received payload:' + JSON.stringify(request.payload));
 
                 if (typeof proposedRequest.response === 'string') {
                     const filePath = Path.normalize(Path.join(__dirname, '../../../', proposedRequest.response));
-                    response = Fs.readFileSync(filePath);
+                    data = Fs.readFileSync(filePath);
                 }
                 else {
-                    response = proposedRequest.response;
+                    data = proposedRequest.response;
                 }
 
             }
 
-            if (response.isBoom === true) {
-                response.output.headers[CustomResponseHeader.name] = CustomResponseHeader.value;
-                return reply(response);
+            if (data.isBoom === true) {
+                data.output.headers[CustomResponseHeader.name] = CustomResponseHeader.value;
+                return toolkit.response(data);
             }
 
             if (sendFile && isFile) {
-                return reply(response).code(proposedRequest.statusCode || 200).type(mimeType)
+                return toolkit.response(data).code(proposedRequest.statusCode || 200).type(mimeType)
                     .header('Content-Disposition', GetContentDisposition(proposedRequest.response))
                     .header(CustomResponseHeader.name, CustomResponseHeader.value);
             }
-            return reply(response).code(proposedRequest.statusCode || 200).type(mimeType)
+            return toolkit.response(data).code(proposedRequest.statusCode || 200).type(mimeType)
                 .header(CustomResponseHeader.name, CustomResponseHeader.value);
         }
     };
