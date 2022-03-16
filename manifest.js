@@ -34,7 +34,7 @@ const manifest = {
     },
     register: {
         plugins: [
-            {plugin: '@hapi/vision'},
+            { plugin: '@hapi/vision' },
             {
                 plugin: '@hapi/good',
                 options: {
@@ -51,14 +51,14 @@ const manifest = {
                             }]
                         }, {
                             module: '@hapi/good-console',
-                            args: [{format: 'YYYY-MM-DD/HH:mm:ss.SSS'}]
+                            args: [{ format: 'YYYY-MM-DD/HH:mm:ss.SSS' }]
                         }, 'stdout']
                     }
                 }
             },
-            {plugin: '@hapi/inert'},
-            {plugin: require('./server/web/index')},
-            {plugin: require('./server/web/public')},
+            { plugin: '@hapi/inert' },
+            { plugin: require('./server/web/index') },
+            { plugin: require('./server/web/public') },
         ]
     }
 };
@@ -69,7 +69,7 @@ Fs.readdirSync(pathToEndpointConfigFiles).map((file) => {
 }).filter((file) => {
     return Fs.statSync(file).isFile();
 }).forEach((file) => {
-    const plugin = {plugin: require('./server/api/' + Path.parse(file).name)};
+    const plugin = { plugin: require('./server/api/' + Path.parse(file).name) };
     manifest.register.plugins.push(plugin);
 });
 
