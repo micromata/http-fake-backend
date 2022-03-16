@@ -14,6 +14,10 @@ lab.experiment('App', () => {
 
         Composer((err, composedServer) => {
 
+            if (err) {
+                console.log(err.stack);
+            }
+
             Code.expect(composedServer).to.be.an.object();
         });
     });

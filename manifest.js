@@ -58,17 +58,20 @@ const manifest = {
             },
             { plugin: '@hapi/inert' },
             { plugin: require('./server/web/index') },
-            { plugin: require('./server/web/public') },
+            { plugin: require('./server/web/public') }
         ]
     }
 };
 
 // Add plugins to manifest.registration for every endpoint in ./server/api
 Fs.readdirSync(pathToEndpointConfigFiles).map((file) => {
+
     return Path.join(pathToEndpointConfigFiles, file);
 }).filter((file) => {
+
     return Fs.statSync(file).isFile();
 }).forEach((file) => {
+
     const plugin = { plugin: require('./server/api/' + Path.parse(file).name) };
     manifest.register.plugins.push(plugin);
 });
@@ -76,10 +79,12 @@ Fs.readdirSync(pathToEndpointConfigFiles).map((file) => {
 const store = new Confidence.Store(manifest);
 
 const startServer = async function () {
+
     try {
         const server = await Glue.compose(manifest, {});
         await server.start();
-    } catch (err) {
+    }
+    catch (err) {
         console.error(err);
         process.exit(1);
     }

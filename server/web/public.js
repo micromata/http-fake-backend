@@ -1,6 +1,7 @@
 'use strict';
 
 exports.name = 'public-plugin';
+
 exports.register = function (server) {
 
     server.route({

@@ -1,6 +1,7 @@
 'use strict';
 
 const Confidence = require('@hapipal/confidence');
+
 require('dotenv').config();
 
 const criteria = {

@@ -50,6 +50,7 @@ module.exports = function (server, proposedRequest, settings, params, path) {
                     .header('Content-Disposition', GetContentDisposition(proposedRequest.response))
                     .header(CustomResponseHeader.name, CustomResponseHeader.value);
             }
+
             return toolkit.response(data).code(proposedRequest.statusCode || 200).type(mimeType)
                 .header(CustomResponseHeader.name, CustomResponseHeader.value);
         }

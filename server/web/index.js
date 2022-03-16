@@ -1,6 +1,7 @@
 'use strict';
 
 const RequireDir = require('require-dir');
+
 const apiDir = RequireDir('../api');
 
 
@@ -15,8 +16,11 @@ const getEndpoints = function (request, reply) {
 
     return reply(endpoints);
 };
+
 exports.name = 'endpoint-routes-plugin';
+
 exports.register = function (server) {
+
     server.route({
         method: 'GET',
         path: '/',
