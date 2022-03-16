@@ -1,7 +1,7 @@
 'use strict';
 
-const Lab = require('lab');
-const Code = require('code');
+const Lab = require('@hapi/lab');
+const Code = require('@hapi/code');
 const Config = require('../../../config');
 const Hapi = require('@hapi/hapi');
 const Vision = require('@hapi/vision');
@@ -14,14 +14,14 @@ let request;
 let server;
 
 
-lab.beforeEach((done) => {
+lab.beforeEach(() => {
 
     const plugins = [Vision, Inert, HomePlugin];
     server = new Hapi.Server({ port: Config.get('/port/web') });
-    server.register(plugins, (err) => {
+    server.register(plugins, {}).catch((err) => {
 
         if (err) {
-            return done(err);
+            throw new Error(err);
         }
 
         server.views({
@@ -34,36 +34,33 @@ lab.beforeEach((done) => {
             isCached: false
         });
 
-        done();
     });
 });
 
 
 lab.experiment('Home Page View', () => {
 
-    lab.beforeEach((done) => {
+    lab.beforeEach(() => {
 
         request = {
             method: 'GET',
             url: '/'
         };
 
-        done();
     });
 
 
-    lab.test('home page renders properly', (done) => {
+    lab.test('home page renders properly', () => {
 
         server.inject(request, (response) => {
 
             Code.expect(response.result).to.match(/<title>http-fake-backend - endpoints \/ routes<\/title>/i);
             Code.expect(response.statusCode).to.equal(200);
 
-            done();
         });
     });
 
-    lab.test('endpoints are delivered to the view', (done) => {
+    lab.test('endpoints are delivered to the view', () => {
 
         server.inject(request, (response) => {
 
@@ -72,7 +69,6 @@ lab.experiment('Home Page View', () => {
 
             Code.expect(endpointsInController).to.equal(endpointsInView);
 
-            done();
         });
     });
 });

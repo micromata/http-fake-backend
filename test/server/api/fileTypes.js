@@ -1,7 +1,7 @@
 'use strict';
 
-const Lab = require('lab');
-const Code = require('code');
+const Lab = require('@hapi/lab');
+const Code = require('@hapi/code');
 const Config = require('../../../config');
 const Hapi = require('@hapi/hapi');
 const Fs = require('fs');
@@ -57,34 +57,26 @@ const lab = exports.lab = Lab.script();
 let request;
 let server;
 
-lab.beforeEach((done) => {
+lab.beforeEach(() => {
 
     const plugins = [Endpoint];
-    server = new Hapi.Server();
-    server.connection({ port: Config.get('/port/web') });
-    server.register(plugins, (err) => {
+    server = new Hapi.Server({ port: Config.get('/port/web') });
+    server.register(plugins, {}).catch((err) => {
 
         if (err) {
-            return done(err);
+            throw new Error(err);
         }
 
-        done();
     });
 });
 
 
 lab.experiment('Different file types', () => {
 
-    lab.beforeEach((done) => {
-
-
-        done();
-    });
-
 
     lab.experiment('send file contents ', () => {
 
-        lab.test('content-type header defaults to `application/json`', (done) => {
+        lab.test('content-type header defaults to `application/json`', () => {
 
             request = {
                 method: 'GET',
@@ -96,11 +88,10 @@ lab.experiment('Different file types', () => {
                 Code.expect(response.headers['content-type']).to.equal('application/json; charset=utf-8');
                 Code.expect(JSON.parse(response.result)).to.equal({ response: '🐷' });
 
-                done();
             });
         });
 
-        lab.test('return text files with the defined content-type header`', (done) => {
+        lab.test('return text files with the defined content-type header`', () => {
 
             request = {
                 method: 'GET',
@@ -112,11 +103,10 @@ lab.experiment('Different file types', () => {
                 Code.expect(response.headers['content-type']).to.equal('text/plain; charset=utf-8');
                 Code.expect(response.result).to.equal('This is just a plain old text file ✅\n');
 
-                done();
             });
         });
 
-        lab.test('return with the defined content-type header and custom status code`', (done) => {
+        lab.test('return with the defined content-type header and custom status code`', () => {
 
             request = {
                 method: 'GET',
@@ -129,7 +119,6 @@ lab.experiment('Different file types', () => {
                 Code.expect(response.result).to.equal('<a href="https://github.com">GitHub 💖</a>\n');
                 Code.expect(response.statusCode).to.equal(201);
 
-                done();
             });
         });
 
@@ -139,7 +128,7 @@ lab.experiment('Different file types', () => {
 
     lab.experiment('send files ', () => {
 
-        lab.test('ascii files have correctly encoded content', (done) => {
+        lab.test('ascii files have correctly encoded content', () => {
 
             request = {
                 method: 'GET',
@@ -150,11 +139,10 @@ lab.experiment('Different file types', () => {
 
                 Code.expect(JSON.parse(response.result)).to.equal({ response: '🐷' });
 
-                done();
             });
         });
 
-        lab.test('binary files have correctly encoded content', (done) => {
+        lab.test('binary files have correctly encoded content', () => {
 
             request = {
                 method: 'GET',
@@ -167,11 +155,10 @@ lab.experiment('Different file types', () => {
 
                 Code.expect(response.result).to.equal(fixtureContent);
 
-                done();
             });
         });
 
-        lab.test('send files with the default content-type and the correct name`', (done) => {
+        lab.test('send files with the default content-type and the correct name`', () => {
 
             request = {
                 method: 'GET',
@@ -184,11 +171,10 @@ lab.experiment('Different file types', () => {
                 Code.expect(response.headers['content-disposition']).to.equal('attachment; filename=example.pdf');
                 Code.expect(response.statusCode).to.equal(200);
 
-                done();
             });
         });
 
-        lab.test('send files with a defined content-type and a custom status code`', (done) => {
+        lab.test('send files with a defined content-type and a custom status code`', () => {
 
             request = {
                 method: 'GET',
@@ -201,7 +187,6 @@ lab.experiment('Different file types', () => {
                 Code.expect(response.headers['content-disposition']).to.equal('attachment; filename=example.pdf');
                 Code.expect(response.statusCode).to.equal(201);
 
-                done();
             });
         });
 

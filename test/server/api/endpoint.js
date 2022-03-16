@@ -1,7 +1,7 @@
 'use strict';
 
-const Lab = require('lab');
-const Code = require('code');
+const Lab = require('@hapi/lab');
+const Code = require('@hapi/code');
 const Config = require('../../../config');
 const Hapi = require('@hapi/hapi');
 const SetupEndpoint = require('../../../server/api/setup/');
@@ -66,31 +66,24 @@ const lab = exports.lab = Lab.script();
 let request;
 let server;
 
-lab.beforeEach((done) => {
+lab.beforeEach(() => {
 
     const plugins = [Endpoint];
     server = new Hapi.Server({ port: Config.get('/port/web') });
-    server.register(plugins, (err) => {
+    server.register(plugins, {}).catch((err) => {
 
         if (err) {
-            return done(err);
+            throw new Error(err);
         }
 
-        done();
     });
 });
 
 
 lab.experiment('Setup endpoints', () => {
 
-    lab.beforeEach((done) => {
 
-
-        done();
-    });
-
-
-    lab.test('returns 404 for unknown route', (done) => {
+    lab.test('returns 404 for unknown route', () => {
 
         request = {
             method: 'POST',
@@ -101,11 +94,10 @@ lab.experiment('Setup endpoints', () => {
 
             Code.expect(response.statusCode).to.equal(404);
 
-            done();
         });
     });
 
-    lab.test('returns 405: Method Not Allowed for undefined methods', (done) => {
+    lab.test('returns 405: Method Not Allowed for undefined methods', () => {
 
         request = {
             method: 'POST',
@@ -121,11 +113,10 @@ lab.experiment('Setup endpoints', () => {
                 message: 'Method Not Allowed'
             });
 
-            done();
         });
     });
 
-    lab.test('params and method are optional', (done) => {
+    lab.test('params and method are optional', () => {
 
         request = {
             method: 'GET',
@@ -137,11 +128,10 @@ lab.experiment('Setup endpoints', () => {
             Code.expect(response.statusCode).to.equal(200);
             Code.expect(JSON.parse(response.result)).to.equal({ response: '🐷' });
 
-            done();
         });
     });
 
-    lab.test('returns correct json from JavaScript object', (done) => {
+    lab.test('returns correct json from JavaScript object', () => {
 
         request = {
             method: 'GET',
@@ -153,11 +143,10 @@ lab.experiment('Setup endpoints', () => {
             Code.expect(response.statusCode).to.equal(200);
             Code.expect(response.result).to.equal({ javascript: 'object' });
 
-            done();
         });
     });
 
-    lab.test('returns correct json from JSON template', (done) => {
+    lab.test('returns correct json from JSON template', () => {
 
         request = {
             method: 'GET',
@@ -169,11 +158,10 @@ lab.experiment('Setup endpoints', () => {
             Code.expect(response.statusCode).to.equal(200);
             Code.expect(JSON.parse(response.result)).to.equal({ response: '🐷' });
 
-            done();
         });
     });
 
-    lab.test('PUT returns correct json', (done) => {
+    lab.test('PUT returns correct json', () => {
 
         request = {
             method: 'PUT',
@@ -185,11 +173,10 @@ lab.experiment('Setup endpoints', () => {
             Code.expect(response.statusCode).to.equal(200);
             Code.expect(JSON.parse(response.result)).to.equal({ response: '🐷' });
 
-            done();
         });
     });
 
-    lab.test('PATCH on same route returns different json', (done) => {
+    lab.test('PATCH on same route returns different json', () => {
 
         request = {
             method: 'PATCH',
@@ -201,11 +188,10 @@ lab.experiment('Setup endpoints', () => {
             Code.expect(response.statusCode).to.equal(200);
             Code.expect(response.result).to.equal({ success: true });
 
-            done();
         });
     });
 
-    lab.test('DELETE returns correct json', (done) => {
+    lab.test('DELETE returns correct json', () => {
 
         request = {
             method: 'DELETE',
@@ -217,11 +203,10 @@ lab.experiment('Setup endpoints', () => {
             Code.expect(response.statusCode).to.equal(200);
             Code.expect(JSON.parse(response.result)).to.equal({ response: '🐷' });
 
-            done();
         });
     });
 
-    lab.test('correct json for multiple Methods', (done) => {
+    lab.test('correct json for multiple Methods', () => {
 
         const putRequest = {
             method: 'PUT',
@@ -259,7 +244,6 @@ lab.experiment('Setup endpoints', () => {
                 message: 'Method Not Allowed'
             });
 
-            done();
         });
 
 

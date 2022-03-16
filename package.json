@@ -21,7 +21,7 @@
     "coveralls": "lab -r lcov | ./node_modules/.bin/coveralls"
   },
   "eslintConfig": {
-    "extends": "eslint-config-hapi"
+    "extends": "plugin:@hapi/recommended"
   },
   "engines": {
     "node": ">=6.0.0"
@@ -41,12 +41,11 @@
     "@hapi/vision": "^6.1.0"
   },
   "devDependencies": {
-    "code": "^4.1.0",
+    "@hapi/code": "^5.2.4",
     "coveralls": "^3.1.1",
     "eslint": "^8.11.0",
-    "eslint-config-hapi": "^11.1.0",
-    "eslint-plugin-hapi": "^4.0.0",
-    "lab": "^14.3.2",
+    "@hapi/eslint-plugin": "^5.1.0",
+    "@hapi/lab": "^24.5.1",
     "nodemon": "^2.0.15",
     "nsp": "^3.2.1",
     "standard-version": "^4.3.0"
