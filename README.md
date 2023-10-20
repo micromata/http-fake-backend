@@ -13,6 +13,11 @@
 
 Comes as a Node.js server. Useful for mocking, testing and developing independent of the »real« backend.
 
+## Sorry, this project is unmaintained 😢
+Thanks to all contributors for your work!
+
+We’ve just pushed a last release which fixes some bugs, make this thing run with Node 18.
+
 ## Example
 Let’s say you need an endpoint like <http://localhost:8081/api/example> which should return:
 
@@ -28,7 +33,7 @@ It might take a few seconds longer as setting up the well-made [JSON Server](htt
 
 ## Requirements
 
-- Node.js (v6.0.0 or greater)
+- Node.js (18.12.0 or greater)
 
 ## Install
 
